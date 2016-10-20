@@ -120,6 +120,12 @@ class NavigationTransitioner extends React.Component<any, Props, State> {
     this._prevTransitionProps = this._transitionProps;
     this._transitionProps = buildTransitionProps(nextProps, nextState);
 
+    const transitionNeeded = needTransition(nextProps.navigationState, this.props.navigationState);
+    if(!transitionNeeded) {
+        this.setState(nextState);
+        return;
+    }
+
     const {
       position,
       progress,
@@ -262,6 +268,18 @@ function isSceneNotStale(scene: NavigationScene): boolean {
 
 function isSceneActive(scene: NavigationScene): boolean {
   return scene.isActive;
+}
+
+function needTransition(stateA: NavigationState, stateB: NavigationState): boolean {
+    if (stateA === stateB) {
+        return false
+    }
+    if (stateA.index == stateB.index && stateA.routes.length == stateB.routes.length){
+        if(stateA.routes.every((route, index) => route.key == stateB.routes[index].key)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 const styles = StyleSheet.create({
