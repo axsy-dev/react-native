@@ -151,7 +151,9 @@ public class ReactWebViewManager extends SimpleViewManager<WebView> {
 
         if (!useDefaultIntent &&
             (url.startsWith("http://") || url.startsWith("https://") ||
-            url.startsWith("file://") || url.equals("about:blank"))) {
+            url.startsWith("file://") || url.equals("about:blank") ||
+            url.startsWith("axsy://") || url.startsWith("axsychatter://") ||
+            url.startsWith("axsy"))) {
           return false;
         } else {
           try {
